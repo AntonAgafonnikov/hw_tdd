@@ -1,24 +1,25 @@
 package ru.netology;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.stream.Stream;
 
 public class PhoneBookTest {
-    private static final PhoneBook phoneBook = new PhoneBook();
+    private PhoneBook phoneBook;
 
-    @BeforeAll
-    public static void fillPhoneBook() {
-        phoneBook.add("Rick", "+70000000000");
-        phoneBook.add("Todd", "+77777777777");
-        phoneBook.add("Kim", "+79991111111");
+    @BeforeEach
+    public void fillPhoneBook() {
+        phoneBook = new PhoneBook();
+        phoneBook.phoneBook.put("Rick", "+70000000000");
+        phoneBook.phoneBook.put("Todd", "+77777777777");
+        phoneBook.phoneBook.put("Kim", "+79991111111");
     }
 
     @ParameterizedTest
@@ -54,10 +55,22 @@ public class PhoneBookTest {
     @Test
     public void testPrintAllNames() {
         //Arrange
-        List<String> expected = List.of("Kim", "Rick", "Todd");
+        String expected = "Kim Rick Todd";
+        String executable = "";
 
         //Act
-        List<String> executable = phoneBook.printAllNames();
+        PrintStream originalOut = System.out;
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(100);
+            PrintStream capture = new PrintStream(outputStream);
+            System.setOut(capture);
+            phoneBook.printAllNames();
+            capture.flush();
+            executable = outputStream.toString();
+            System.setOut(originalOut);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Assert
         Assertions.assertEquals(expected, executable);
@@ -67,9 +80,7 @@ public class PhoneBookTest {
     public static Stream<Arguments> parametersMethodTestAdd() {
         return Stream.of(
                 Arguments.of("Kate", "+79998887766", 4),
-                Arguments.of("Dan", "+71112223344", 5),
-                Arguments.of("Dan", "+75556667766", 5),
-                Arguments.of("Leo", "+73332221100", 6)
+                Arguments.of("Kim", "+71112223344", 3)
         );
     }
 

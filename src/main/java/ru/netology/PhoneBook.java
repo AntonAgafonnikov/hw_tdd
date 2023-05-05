@@ -1,11 +1,10 @@
 package ru.netology;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class PhoneBook {
-    public Map<String, String> phoneBook = new HashMap<>();
+    public Map<String, String> phoneBook = new TreeMap<>();
 
     public int add(String name, String phoneNumber) {
         if (!phoneBook.containsKey(name)) {
@@ -28,7 +27,12 @@ public class PhoneBook {
         return phoneBook.getOrDefault(name, "ОШИБКА! Контакт не найден!");
     }
 
-    public List<String> printAllNames() {
-        return null;
+    public void printAllNames() {
+        StringBuilder stringBuilderNames = new StringBuilder();
+        for (Map.Entry<String, String> entry : phoneBook.entrySet()) {
+            stringBuilderNames.append(entry.getKey()).append(" ");
+        }
+        String result = stringBuilderNames.toString().trim();
+        System.out.print(result);
     }
 }
