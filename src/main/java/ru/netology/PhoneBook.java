@@ -22,4 +22,8 @@ public class PhoneBook {
                 .filter(key -> number.equals(phoneBook.get(key)))
                 .findFirst().orElse("ОШИБКА! Контакт не найден!");
     }
+
+    public String findByName(String name) {
+        return null;
+    }
 }

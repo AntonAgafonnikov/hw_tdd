@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.stream.Stream;
 
 public class PhoneBookTest {
@@ -37,6 +38,16 @@ public class PhoneBookTest {
         Assertions.assertEquals(expected, executable);
     }
 
+    @ParameterizedTest
+    @MethodSource("parametersMethodTestFindByName")
+    public void testFindByName(String name, String expected) {
+        //Act
+        String executable = phoneBook.findByName(name);
+
+        //Assert
+        Assertions.assertEquals(expected, executable);
+    }
+
     public static Stream<Arguments> parametersMethodTestAdd() {
         return Stream.of(
                 Arguments.of("Kate", "+79998887766", 4),
@@ -52,6 +63,15 @@ public class PhoneBookTest {
                 Arguments.of("+70000000000", "Rick"),
                 Arguments.of("+75556667766", "ОШИБКА! Контакт не найден!"),
                 Arguments.of("+77777777777", "Todd")
+        );
+    }
+
+    public static Stream<Arguments> parametersMethodTestFindByName() {
+        return Stream.of(
+                Arguments.of("Kim", "+79991111111"),
+                Arguments.of("Rick", "+70000000000"),
+                Arguments.of("John", "ОШИБКА! Контакт не найден!"),
+                Arguments.of("Todd", "+77777777777")
         );
     }
 }
