@@ -16,7 +16,6 @@ public class PhoneBookTest {
 
         //Assert
         Assertions.assertEquals(expected, executable);
-
     }
 
     public static Stream<Arguments> parametersMethodAddTest() {
