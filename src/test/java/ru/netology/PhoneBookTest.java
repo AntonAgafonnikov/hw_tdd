@@ -2,10 +2,13 @@ package ru.netology;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class PhoneBookTest {
@@ -13,9 +16,9 @@ public class PhoneBookTest {
 
     @BeforeAll
     public static void fillPhoneBook() {
-        phoneBook.add("Kim", "+79991111111");
         phoneBook.add("Rick", "+70000000000");
         phoneBook.add("Todd", "+77777777777");
+        phoneBook.add("Kim", "+79991111111");
     }
 
     @ParameterizedTest
@@ -48,6 +51,19 @@ public class PhoneBookTest {
         Assertions.assertEquals(expected, executable);
     }
 
+    @Test
+    public void testPrintAllNames() {
+        //Arrange
+        List<String> expected = List.of("Kim", "Rick", "Todd");
+
+        //Act
+        List<String> executable = phoneBook.printAllNames();
+
+        //Assert
+        Assertions.assertEquals(expected, executable);
+    }
+
+    //******* Parameters fo tests *******
     public static Stream<Arguments> parametersMethodTestAdd() {
         return Stream.of(
                 Arguments.of("Kate", "+79998887766", 4),
