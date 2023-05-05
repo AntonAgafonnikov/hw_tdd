@@ -4,21 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PhoneBook {
-    static final Map<String, String> phoneBook = new HashMap<>();
-    static int contactCounter = 0;
+    public Map<String, String> phoneBook = new HashMap<>();
 
-    public static int add(String name, String phoneNumber) {
+    public int add(String name, String phoneNumber) {
         if (!phoneBook.containsKey(name)) {
             phoneBook.put(name, phoneNumber);
-            contactCounter++;
             System.out.println("Контакт " + name + " успешно добавлен в телефонную книгу");
         } else {
             System.out.println("ОШИБКА! Дубликат контакта: " + name + " " + phoneBook.get(name));
         }
-        return contactCounter;
+        return phoneBook.size();
     }
 
-    public static String findByNumber(String number) {
-        return null;
+    public String findByNumber(String number) {
+        return phoneBook.keySet()
+                .stream()
+                .filter(key -> number.equals(phoneBook.get(key)))
+                .findFirst().orElse("ОШИБКА! Контакт не найден!");
     }
 }
